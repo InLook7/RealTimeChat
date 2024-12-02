@@ -7,4 +7,6 @@ public class MessageDto
     public int RoomId { get; set; }
     public int UserId { get; set; }
     public DateTime CreationDate { get; set; }
+    public string UserName { get; set; }
+    public string Sentiment { get; set; }
 }
