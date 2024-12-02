@@ -1,6 +1,6 @@
 using RealTimeChat.Domain.Common;
 
-namespace RealTimeChat.Domain.Contracts;
+namespace RealTimeChat.Domain.Contracts.RepositoryInterfaces;
 
 public interface IRepository<TEntity> 
     where TEntity : BaseEntity

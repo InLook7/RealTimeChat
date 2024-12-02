@@ -4,8 +4,8 @@ namespace RealTimeChat.Domain.Entities;
 
 public class User : BaseEntity
 {
-    public required string Username { get; set; }
+    public string Username { get; set; }
 
     // Navigation properties
-    public ICollection<Message>? Messages { get; set; }
+    public ICollection<Message> Messages { get; set; }
 }
