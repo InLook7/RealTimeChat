@@ -1,7 +1,9 @@
 [*.cs]
 
-dotnet_diagnostic.CS8618.severity = none
-
 dotnet_diagnostic.CS8603.severity = none
+
+dotnet_diagnostic.CS8604.severity = none
+
+dotnet_diagnostic.CS8618.severity = none
 
 dotnet_diagnostic.IDE0290.severity = none

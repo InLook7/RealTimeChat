@@ -14,6 +14,7 @@ public static class MessageMapper
             RoomId = message.RoomId,
             UserId = message.UserId,
             CreationDate = message.CreationDate,
+            Sentiment = message.Sentiment?.SentimentResult
         };
     }
 

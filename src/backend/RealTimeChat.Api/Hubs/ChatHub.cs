@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using RealTimeChat.Application.Features.Messages.Create;
+using RealTimeChat.Application.Features.Sentiments.Create;
 using RealTimeChat.Shared.Dtos;
 
 namespace RealTimeChat.Api.Hubs;
@@ -26,14 +27,14 @@ public class ChatHub : Hub<IChatClient>
 
     public async Task SendMessage(MessageDto message)
     {
-        var command = new CreateMessageCommand(
+        var messageCommand = new CreateMessageCommand(
             message.Content,
             message.RoomId,
             message.UserId,
             message.CreationDate
         );
 
-        var result = await _sender.Send(command);
+        var result = await _sender.Send(messageCommand);
 
         if (result.IsFailed)
         {
@@ -42,6 +43,14 @@ public class ChatHub : Hub<IChatClient>
         }
         else
         {
+            var sentimentCommand = new CreateSentimentCommand(
+                result.Value.Id,
+                result.Value.Content
+            );
+
+            var sentiment = await _sender.Send(sentimentCommand);
+            result.Value.Sentiment = sentiment.Value;
+
             await Clients.Group(result.Value.RoomId.ToString())
                 .ReceiveMessage(result.Value);
         }

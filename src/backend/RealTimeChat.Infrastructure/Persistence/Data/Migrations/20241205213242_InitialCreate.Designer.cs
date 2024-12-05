@@ -12,7 +12,7 @@ using RealTimeChat.Infrastructure.Persistence.Data;
 namespace RealTimeChat.Infrastructure.Persistence.Data.Migrations
 {
     [DbContext(typeof(RealTimeChatDbContext))]
-    [Migration("20241205121011_InitialCreate")]
+    [Migration("20241205213242_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

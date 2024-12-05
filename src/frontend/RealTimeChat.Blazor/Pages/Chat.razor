@@ -46,7 +46,7 @@
                             <Message MessageDetails = "@message"
                                 Username="@currentUser.Username"
                                 Alignment="@(currentUser.Id == message.UserId ? "ml-auto" : "")"
-                                BackgroundColor="@ColorMessage("Positive")" />
+                                BackgroundColor="@ColorMessage(message.Sentiment)" />
                         }
                     </div>
                 </div>
@@ -156,7 +156,8 @@
         {
             "Positive" => new GradientColors("#428d07", "#6d9f20"),
             "Neutral" => new GradientColors("#1e6ac6", "#18a4b2"),
-            "Negative" => new GradientColors("#e2551e", "#f1861d")
+            "Negative" => new GradientColors("#e2551e", "#f1861d"),
+            _ => new GradientColors("#ffffff", "#d4dfed")
         };
     }
 }
