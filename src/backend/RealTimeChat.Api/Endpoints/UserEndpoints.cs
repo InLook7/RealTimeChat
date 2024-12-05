@@ -8,9 +8,10 @@ public static class UserEndpoints
 {
     public static void MapUserEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("api/users");
+        var group = app.MapGroup("users");
 
-        group.MapPost("/", CreateUser);
+        group.MapPost("/", CreateUser)
+            .MapToApiVersion(1);
     }
 
     private static async Task<IResult> CreateUser(ISender sender, UserDto user)

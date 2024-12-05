@@ -1,3 +1,5 @@
+using Asp.Versioning;
+using Scalar.AspNetCore;
 using RealTimeChat.Api.Endpoints;
 using RealTimeChat.Api.Hubs;
 using RealTimeChat.Api.Middleware;
@@ -12,6 +14,10 @@ builder.Services
 
 builder.Services.AddSignalR();
 
+builder.Services.AddApiVersioning(options => 
+{
+    options.ApiVersionReader = new UrlSegmentApiVersionReader();
+});
 builder.Services.AddOpenApi();
 
 builder.Services.AddCors();
@@ -21,12 +27,17 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-app.MapRoomEndpoints();
-app.MapUserEndpoints();
+var versionedGroup = app.NewVersionedApi()
+    .MapGroup("api/v{version:apiVersion}")
+    .HasApiVersion(1);
+
+versionedGroup.MapRoomEndpoints();
+versionedGroup.MapUserEndpoints();
 
 app.MapHub<ChatHub>("chat");
 
