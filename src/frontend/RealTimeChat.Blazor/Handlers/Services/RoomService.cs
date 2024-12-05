@@ -15,14 +15,14 @@ public class RoomService : IRoomService
 
     public async Task<List<RoomDto>> GetAllRooms()
     {
-        var rooms = await _httpClient.GetFromJsonAsync<List<RoomDto>>("api/rooms");
+        var rooms = await _httpClient.GetFromJsonAsync<List<RoomDto>>("api/v1/rooms");
 
         return rooms;
     }
 
     public async Task<List<MessageDto>> GetMessagesByRoomId(int roomId)
     {
-        var messages = await _httpClient.GetFromJsonAsync<List<MessageDto>>($"api/rooms/{roomId}/messages");
+        var messages = await _httpClient.GetFromJsonAsync<List<MessageDto>>($"api/v1/rooms/{roomId}/messages");
 
         return messages;
     }

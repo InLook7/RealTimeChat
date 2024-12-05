@@ -15,7 +15,7 @@ public class UserService : IUserService
 
     public async Task<UserDto> CreateUser(UserDto userDto)
     {
-        var response = await _httpClient.PostAsJsonAsync("api/users", userDto);
+        var response = await _httpClient.PostAsJsonAsync("api/v1/users", userDto);
         var user = await response.Content.ReadFromJsonAsync<UserDto>();
 
         return user;
