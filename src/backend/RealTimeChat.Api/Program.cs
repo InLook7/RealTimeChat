@@ -1,5 +1,6 @@
 using RealTimeChat.Api.Endpoints;
 using RealTimeChat.Api.Hubs;
+using RealTimeChat.Api.Middleware;
 using RealTimeChat.Application.Extensions;
 using RealTimeChat.Infrastructure.Extensions;
 
@@ -21,6 +22,8 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.MapRoomEndpoints();
 app.MapUserEndpoints();
