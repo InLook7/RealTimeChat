@@ -1,15 +1,21 @@
-using RealTimeChat.Application.Common.Dtos;
 using RealTimeChat.Domain.Entities;
-using Riok.Mapperly.Abstractions;
+using RealTimeChat.Shared.Dtos;
 
 namespace RealTimeChat.Application.Common.Mappers;
 
-[Mapper]
-public static partial class RoomMapper
+public static class RoomMapper
 {
-    [MapperIgnoreSource(nameof(Room.Messages))]
-    public static partial RoomDto ToRoomDto(this Room room);
+    public static RoomDto ToRoomDto(this Room room)
+    {
+        return new RoomDto
+        {
+            Id = room.Id,
+            Name = room.Name
+        };
+    }
 
-    [MapperIgnoreSource(nameof(Room.Messages))]
-    public static partial IEnumerable<RoomDto> ToRoomDtos(this IEnumerable<Room> rooms);
+    public static IEnumerable<RoomDto> ToRoomDtos(this IEnumerable<Room> rooms)
+    {
+        return rooms.Select(ToRoomDto).ToList();
+    }
 }

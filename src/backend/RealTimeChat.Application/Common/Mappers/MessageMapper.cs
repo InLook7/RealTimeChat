@@ -1,19 +1,24 @@
-using Riok.Mapperly.Abstractions;
-using RealTimeChat.Application.Common.Dtos;
 using RealTimeChat.Domain.Entities;
+using RealTimeChat.Shared.Dtos;
 
 namespace RealTimeChat.Application.Common.Mappers;
 
-[Mapper]
-public static partial class MessageMapper
+public static class MessageMapper
 {
-    [MapProperty(nameof(Message.User.Username), nameof(MessageDto.UserName))]
-    [MapProperty(nameof(Message.Sentiment.SentimentResult), nameof(MessageDto.Sentiment))]
-    [MapperIgnoreSource(nameof(Message.Room))]
-    public static partial MessageDto ToMessageDto(this Message message);
+    public static MessageDto ToMessageDto(this Message message)
+    {
+        return new MessageDto
+        {
+            Id = message.Id,
+            Content = message.Content,
+            RoomId = message.RoomId,
+            UserId = message.UserId,
+            CreationDate = message.CreationDate,
+        };
+    }
 
-    [MapProperty(nameof(Message.User.Username), nameof(MessageDto.UserName))]
-    [MapProperty(nameof(Message.Sentiment.SentimentResult), nameof(MessageDto.Sentiment))]
-    [MapperIgnoreSource(nameof(Message.Room))]
-    public static partial IEnumerable<MessageDto> ToMessageDtos(this IEnumerable<Message> message);
+    public static IEnumerable<MessageDto> ToMessageDto(this IEnumerable<Message> messages)
+    {
+        return messages.Select(ToMessageDto).ToList();
+    }
 }

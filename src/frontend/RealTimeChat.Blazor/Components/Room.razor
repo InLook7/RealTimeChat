@@ -1,0 +1,17 @@
+<div class="cursor-pointer flex px-10 py-3 mb-6 hover:bg-gray-700 transition-all duration-200 ease-in-out" @onclick="OnClick">
+    <div class="mr-4 relative w-12">
+        <img src=@($"img/{Name}.png") alt="Topic">
+    </div>
+    <div class="flex justify-between items-center">
+        <div class="text-gray-300 text-base font-semibold">@Name</div>
+    </div>
+</div>
+
+@code 
+{
+    [Parameter] 
+    public string Name { get; set; }
+
+    [Parameter]
+    public EventCallback OnClick { get; set; }
+}

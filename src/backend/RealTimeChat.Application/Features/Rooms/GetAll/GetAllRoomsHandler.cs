@@ -1,5 +1,5 @@
 using MediatR;
-using RealTimeChat.Application.Common.Dtos;
+using RealTimeChat.Shared.Dtos;
 using RealTimeChat.Application.Common.Mappers;
 using RealTimeChat.Domain.Contracts.UnitOfWork;
 

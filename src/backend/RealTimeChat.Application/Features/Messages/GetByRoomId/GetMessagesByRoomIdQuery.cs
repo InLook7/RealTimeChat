@@ -1,6 +1,7 @@
+using FluentResults;
 using MediatR;
-using RealTimeChat.Application.Common.Dtos;
+using RealTimeChat.Shared.Dtos;
 
 namespace RealTimeChat.Application.Features.Messages.GetByRoomId;
 
-public record GetMessagesByRoomIdQuery(int RoomId) : IRequest<IEnumerable<MessageDto>>;
+public record GetMessagesByRoomIdQuery(int RoomId) : IRequest<Result<IEnumerable<MessageDto>>>;

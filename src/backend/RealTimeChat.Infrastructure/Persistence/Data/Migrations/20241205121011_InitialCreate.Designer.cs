@@ -12,7 +12,7 @@ using RealTimeChat.Infrastructure.Persistence.Data;
 namespace RealTimeChat.Infrastructure.Persistence.Data.Migrations
 {
     [DbContext(typeof(RealTimeChatDbContext))]
-    [Migration("20241202204740_InitialCreate")]
+    [Migration("20241205121011_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -124,9 +124,6 @@ namespace RealTimeChat.Infrastructure.Persistence.Data.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Username")
-                        .IsUnique();
 
                     b.ToTable("Users");
                 });

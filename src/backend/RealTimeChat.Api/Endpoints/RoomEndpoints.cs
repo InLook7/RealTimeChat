@@ -23,8 +23,13 @@ public static class RoomEndpoints
 
     private static async Task<IResult> GetMessagesByRoomId(ISender sender, int roomId)
     {
-        var messages = await sender.Send(new GetMessagesByRoomIdQuery(roomId));
+        var result = await sender.Send(new GetMessagesByRoomIdQuery(roomId));
 
-        return TypedResults.Ok(messages);
+        if (result.IsFailed)
+        {
+            return TypedResults.BadRequest(result.Errors.Select(e => e.Message));
+        }
+
+        return TypedResults.Ok(result.Value);
     }
 }

@@ -1,5 +1,5 @@
 using MediatR;
-using RealTimeChat.Application.Common.Dtos;
+using RealTimeChat.Shared.Dtos;
 
 namespace RealTimeChat.Application.Features.Rooms.GetAll;
 

@@ -1,6 +1,6 @@
-using Ardalis.Result;
+using FluentResults;
 using MediatR;
-using RealTimeChat.Application.Common.Dtos;
+using RealTimeChat.Shared.Dtos;
 
 namespace RealTimeChat.Application.Features.Messages.Create;
 

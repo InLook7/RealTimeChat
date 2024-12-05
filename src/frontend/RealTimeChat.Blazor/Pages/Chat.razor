@@ -1,0 +1,162 @@
+﻿@page "/"
+@inject IRoomService roomService;
+@inject IUserService userService;
+@inject IHubService hubService;
+
+<div class="flex flex-1 overflow-hidden h-screen max-w-screen-2xl m-auto">
+    <div class="p-12 lg:p-20 w-full">
+        <div class="max-h-full h-full flex">
+
+            <!-- Topics -->
+            <aside class="w-full lg:w-2/6 bg-gray-900 rounded-lg mr-5">
+                <div class="flex flex-col w-full h-full">
+                    <div class="flex p-10">
+                        <h2 class="text-4xl font-semibold text-gray-100">Topics</h2>
+                    </div>
+
+                    <div class="flex flex-col w-full">
+                        @foreach (var room in rooms)
+                        {
+                            <Room Name="@room.Name" OnClick="() => JoinRoom(room)"/>
+                        }
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Chat -->
+            <section class="relative max-h-full h-full bg-gray-900 rounded-lg w-full flex flex-col lg:flex hidden">
+                <div class="flex-none p-3 text-white font-semibold text-xl">
+                    <div class="flex items-center space-x-4">
+                        @if (currentRoom != null)
+                        {
+                            <div class="mr-4 relative w-12">
+                                <img src=@($"img/{currentRoom.Name}.png") alt="@currentRoom.Name" class="w-full h-auto"/>
+                            </div>
+
+                            <div>@currentRoom.Name</div>
+                        }
+                    </div>
+                    <hr class="border-[0.1px] border-[#ececec] mt-5" />
+                </div>
+
+                <div class="flex-1 p-10 space-y-5 overflow-y-auto no-scrollbar">
+                    <div class="flex flex-col gap-2.5">
+                        @foreach (var message in messages)
+                        {
+                            <Message MessageDetails = "@message"
+                                Username="@currentUser.Username"
+                                Alignment="@(currentUser.Id == message.UserId ? "ml-auto" : "")"
+                                BackgroundColor="@ColorMessage("Positive")" />
+                        }
+                    </div>
+                </div>
+
+                <div class="flex-none p-5">
+                    <div class="relative flex">
+                        <input type="text" placeholder="Type here..." 
+                            class="w-full placeholder-gray-400 italic pl-12 pr-12 bg-gray-800 
+                                text-gray-100 rounded-full py-3 border-transparent focus:outline-none focus:ring focus:ring-cyan-400" 
+                            @bind="textMessage" />
+        
+                        <button @onclick="SendMessageAsync" 
+                            class="absolute right-4 top-1/2 transform -translate-y-1/2 
+                                text-gray-300 hover:text-cyan-400 focus:outline-none cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-8 h-8">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7-7 7M5 12h14"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                @if (textErrors.Any())
+                {
+                    <div class="p-3 text-red-500 rounded-lg mb-4">
+                        <ul>
+                            @foreach (var error in textErrors)
+                            {
+                                <li>@error</li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </section>
+
+        </div>
+    </div>
+</div>
+
+@code 
+{
+    private List<RoomDto> rooms = new List<RoomDto>();
+    private List<MessageDto> messages = new List<MessageDto>();
+    private List<string> textErrors = new List<string>();
+    private string textMessage = string.Empty;
+    private RoomDto currentRoom;
+    private UserDto currentUser;
+
+    protected override async Task OnInitializedAsync()
+    {
+        rooms = await roomService.GetAllRooms();
+        currentUser = await userService.CreateUser(new UserDto() { Username = "Anonym" });
+    
+        hubService.OnReceiveMessage(HandleReceivedMessage);
+        hubService.OnReceiveError(HandleReceivedError);
+
+        await hubService.StartAsync();
+        await JoinRoom(rooms.First());
+    }
+
+    private void HandleReceivedMessage(MessageDto message)
+    {
+        messages.Add(message);
+
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void HandleReceivedError(List<string> errors)
+    {
+        textErrors = errors;
+
+        InvokeAsync(StateHasChanged);
+    }
+
+    private async Task JoinRoom(RoomDto room)
+    {
+        if (currentRoom != null)
+        {
+            await hubService.LeaveChat(currentRoom.Id);
+        }
+
+        currentRoom = room;
+        
+        await hubService.JoinChat(room.Id);
+        messages = await roomService.GetMessagesByRoomId(room.Id);
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task SendMessageAsync()
+    {
+        var message = new MessageDto
+        {
+            Content = textMessage,
+            RoomId = currentRoom.Id,
+            UserId = currentUser.Id,
+            CreationDate = DateTime.UtcNow
+        };
+
+        await hubService.SendMessageAsync(message);
+
+        textMessage = string.Empty;
+    }
+
+    private GradientColors ColorMessage(string messageSentiment)
+    {
+        return messageSentiment switch
+        {
+            "Positive" => new GradientColors("#428d07", "#6d9f20"),
+            "Neutral" => new GradientColors("#1e6ac6", "#18a4b2"),
+            "Negative" => new GradientColors("#e2551e", "#f1861d")
+        };
+    }
+}

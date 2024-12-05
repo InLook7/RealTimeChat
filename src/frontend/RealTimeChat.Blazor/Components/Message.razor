@@ -1,0 +1,28 @@
+<div class="p-3.5 rounded-lg max-w-[28rem] w-fit flex flex-col gap-2 
+    bg-gradient-to-r from-[@BackgroundColor.StartColor] to-[@BackgroundColor.EndColor] @Alignment">
+    
+    <div class="text-white italic text-xs">
+        @Username
+    </div>
+    <div class="text-white font-bold">
+        @MessageDetails.Content
+    </div>
+    <div class="text-white italic">
+        @MessageDetails.CreationDate.ToString("HH:mm")
+    </div>
+</div>
+
+@code 
+{
+    [Parameter] 
+    public MessageDto MessageDetails { get; set; }
+
+    [Parameter] 
+    public string Username { get; set; }
+
+    [Parameter]
+    public string Alignment { get; set; }
+
+    [Parameter] 
+    public GradientColors BackgroundColor { get; set; }
+}

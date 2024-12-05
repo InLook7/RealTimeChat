@@ -109,12 +109,6 @@ namespace RealTimeChat.Infrastructure.Persistence.Data.Migrations
                 table: "Sentiments",
                 column: "MessageId",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_Username",
-                table: "Users",
-                column: "Username",
-                unique: true);
         }
 
         /// <inheritdoc />

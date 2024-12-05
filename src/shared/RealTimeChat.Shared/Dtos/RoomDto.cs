@@ -1,4 +1,4 @@
-namespace RealTimeChat.Application.Common.Dtos;
+namespace RealTimeChat.Shared.Dtos;
 
 public class RoomDto
 {
