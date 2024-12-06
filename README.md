@@ -38,7 +38,8 @@ Website offers chat rooms with various topics for communication, where users can
 - Scalar.AspNetCore - to implement UI for OpenApi.
 - Microsoft.Azure.SignalR - to interact with Azure SignalR Service.
 ---
-- Blazor - for client-side
+- Blazor WASM - for client-side
+- Tailwind CSS - for styles
 - Microsoft.AspNetCore.SignalR.Client - to interact with SignalR on the client side 
 ---
 - XUnit - to test application
