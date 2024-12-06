@@ -18,7 +18,7 @@ public static class MessageMapper
         };
     }
 
-    public static IEnumerable<MessageDto> ToMessageDto(this IEnumerable<Message> messages)
+    public static IEnumerable<MessageDto> ToMessageDtos(this IEnumerable<Message> messages)
     {
         return messages.Select(ToMessageDto).ToList();
     }

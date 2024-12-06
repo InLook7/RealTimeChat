@@ -25,6 +25,6 @@ public class GetMessagesByRoomIdHandler : IRequestHandler<GetMessagesByRoomIdQue
 
         var messages = await _unitOfWork.MessageRepository.GetByRoomIdAsync(query.RoomId);
         
-        return Result.Ok(messages.ToMessageDto());
+        return Result.Ok(messages.ToMessageDtos());
     }
 }
