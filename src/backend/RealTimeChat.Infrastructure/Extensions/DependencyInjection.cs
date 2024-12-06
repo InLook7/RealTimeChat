@@ -17,7 +17,7 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         services.AddDbContext<RealTimeChatDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("RealTimeChatDbConnectionString"))
+            options.UseSqlServer(configuration["RealTimeChatDbConnectionString"])
         );
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();

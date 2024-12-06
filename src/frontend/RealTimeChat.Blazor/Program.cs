@@ -11,12 +11,12 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddSingleton(serviceProdiver => new HttpClient
 {
-    BaseAddress = new Uri("http://localhost:5131")
+    BaseAddress = new Uri(Environment.GetEnvironmentVariable("REALTIMECHAT_BACKEND_URL"))
 });
 
 builder.Services.AddSingleton(serviceProvider =>
     new HubConnectionBuilder()
-        .WithUrl("http://localhost:5131/chat")
+        .WithUrl(Environment.GetEnvironmentVariable("REALTIMECHAT_BACKEND_URL") + "/chat")
         .Build()
 );
 

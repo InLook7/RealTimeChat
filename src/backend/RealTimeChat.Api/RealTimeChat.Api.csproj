@@ -10,6 +10,7 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
     <PackageReference Include="Asp.Versioning.Http" Version="8.1.0" />
     <PackageReference Include="Scalar.AspNetCore" Version="1.2.45" />
+    <PackageReference Include="Microsoft.Azure.SignalR" Version="1.28.0" />
   </ItemGroup>
 
   <ItemGroup>

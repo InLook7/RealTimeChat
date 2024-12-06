@@ -12,7 +12,8 @@ builder.Services
     .AddApplicationServices()
     .AddInfrastructureServices(builder.Configuration);
 
-builder.Services.AddSignalR();
+builder.Services.AddSignalR()
+    .AddAzureSignalR(builder.Configuration.GetValue<string>("ConnectionStringAzureSignalR"));
 
 builder.Services.AddApiVersioning(options => 
 {
